@@ -1,8 +1,10 @@
 """Anagram."""
 import random as r
+import sys
 
 
 def anagram_gen(s):
+    """Return scrambled word i.e. generate anagram."""
     anagram = []
     s = list(s)
     while len(s) > 0:
@@ -13,4 +15,6 @@ def anagram_gen(s):
     print("".join(anagram))
 
 
-anagram_gen("Andrew")
+if __name__ == "__main__":
+    word = sys.argv[1:]
+    anagram_gen(word)
