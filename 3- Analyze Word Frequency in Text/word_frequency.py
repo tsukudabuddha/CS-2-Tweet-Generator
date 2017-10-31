@@ -43,7 +43,6 @@ def histogram_list_tuples(source_text):
         for entry in histogram:
             if entry[0] == word:
                 num = entry[1] + 1
-                print(num)
                 histogram.remove(entry)
                 histogram.append((word, num))
                 create_new_entry = False
