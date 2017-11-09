@@ -7,10 +7,11 @@ app = Flask(__name__)
 @app.route('/')
 def home_page_text():
     histogram = word_frequency.histogram("joey_words.txt")
-    sentence = ""
+    sentence = []
     for _ in range(0, 10):
         sentence.append(stochastic_sampling.stochastic_sample(histogram))
-    return sentence
+    string_sentence = " ".join(sentence)
+    return string_sentence
 
 
 if __name__ == '__main__':
