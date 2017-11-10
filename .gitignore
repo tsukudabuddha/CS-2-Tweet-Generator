@@ -54,6 +54,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+/Not\ Server
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
