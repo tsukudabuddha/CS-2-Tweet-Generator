@@ -1,32 +1,9 @@
 """Word Frequency."""
 
 
-def clean(text_document):
-    """
-    Removes the new line characters and punctuation that appears at the end of
-    each word.
-    """
-    with open(text_document) as f:
-        words = f.read()
-
-    clean_text_document = words.replace('\n', '')
-    clean_text_document = clean_text_document.replace(', ', ' ')
-    clean_text_document = clean_text_document.replace('.', ' ')
-    clean_text_document = clean_text_document.split(' ')
-
-    for word in clean_text_document:
-        word = word.lower()
-        if word == '':
-            clean_text_document.remove(word)
-
-    return clean_text_document
-
-
-def histogram(source_text):
+def histogram(text):
     """Return dictionary of words and frequecy."""
     histogram = {}
-    # text = clean(source_text)
-    text = source_text.split(" ")
     for word in text:
         word = word.lower()
         if word in histogram:
