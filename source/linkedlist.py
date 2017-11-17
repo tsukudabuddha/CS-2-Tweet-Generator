@@ -1,4 +1,5 @@
 #!python
+import pdb
 
 
 class Node(object):
@@ -55,26 +56,48 @@ class LinkedList(object):
     def length(self):
         """Return the length of this linked list by traversing its nodes.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes and count one for each
+        length = 0
+        # Set first node to be traversed to head
+        node = self.head
+        while node is not None:
+            length += 1
+            node = node.next
+        return length
 
     def append(self, item):
-        """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Create new node to hold given item
-        # TODO: Append node after tail, if it exists
+        """Insert the given item at the tail of this linked list."""
+        new_node = Node(item)
+
+        if self.is_empty():
+            self.head = new_node
+        else:
+            self.tail.next = new_node
+        # In either case we need to change the tail
+        self.tail = new_node
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Create new node to hold given item
-        # TODO: Prepend node before head, if it exists
+        new_node = Node(item)
+
+        if self.is_empty():
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head = new_node
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
         TODO: Best case running time: O(???) Why and under what conditions?
         TODO: Worst case running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes to find item where quality(item) is True
         # TODO: Check if node's data satisfies given quality function
+        node = self.head
+        while node is not None:
+            if node.data == quality:
+                return node
+            node = node.next
+        return None
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
@@ -83,18 +106,51 @@ class LinkedList(object):
         # TODO: Loop through all nodes to find one whose data matches given item
         # TODO: Update previous node to skip around node with matching data
         # TODO: Otherwise raise error to tell user that delete has failed
-        # Hint: raise ValueError('Item not found: {}'.format(item))
+
+        if self.find(item):
+            node = self.head
+            while node is not None:
+                if node.data == item:
+                    if node.next is not None:
+                        if self.head == node:
+                            self.head = self.head.next
+                            break
+                    elif self.tail == node:
+                        temp = node.next
+                        node.data = temp.data
+                        node.next = temp.next
+                        # pdb.set_trace()
+                        node = node.next
+        else:
+            raise ValueError('Item not found: {}'.format(item))
 
 
 def test_linked_list():
     ll = LinkedList()
     print('list: {}'.format(ll))
 
-    print('\nTesting append:')
+    # print('\nTesting append:')
+    # for item in ['A', 'B', 'C']:
+    #     print('append({!r})'.format(item))
+    #     ll.append(item)
+    #     print('list: {}'.format(ll))
+    #
+    # print('head: {}'.format(ll.head))
+    # print('tail: {}'.format(ll.tail))
+    # print('length: {}'.format(ll.length()))
+
+    print('\nTesting prepend:')
     for item in ['A', 'B', 'C']:
-        print('append({!r})'.format(item))
-        ll.append(item)
+        print('prepend({!r})'.format(item))
+        ll.prepend(item)
         print('list: {}'.format(ll))
+
+    print('head: {}'.format(ll.head))
+    print('tail: {}'.format(ll.tail))
+    print('length: {}'.format(ll.length()))
+
+    print('\nTesting find:')
+    print(ll.find('C'))
 
     print('head: {}'.format(ll.head))
     print('tail: {}'.format(ll.tail))

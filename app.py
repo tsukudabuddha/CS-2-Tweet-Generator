@@ -6,6 +6,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
+def start_page():
+    return "Empty homescreen, go to /words for text"
+
+
+@app.route('/words')
 def home_page_text():
     clean_text = clean("joey_words.txt")
     histogram = word_frequency.histogram(clean_text)
