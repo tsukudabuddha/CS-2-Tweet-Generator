@@ -55,7 +55,7 @@ class LinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) Why and under what conditions?"""
         length = 0
         # Set first node to be traversed to head
         node = self.head
@@ -91,53 +91,46 @@ class LinkedList(object):
         """Return an item from this linked list satisfying the given quality.
         TODO: Best case running time: O(???) Why and under what conditions?
         TODO: Worst case running time: O(???) Why and under what conditions?"""
-        # TODO: Check if node's data satisfies given quality function
         node = self.head
         while node is not None:
-            if node.data == quality:
-                return node
+            if quality(node.data):
+                return node.data
             node = node.next
-        return None
 
     def delete(self, item):
-        """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes to find one whose data matches given item
-        # TODO: Update previous node to skip around node with matching data
-        # TODO: Otherwise raise error to tell user that delete has failed
+        """Delete the given item from this linked list, or raise ValueError."""
+        previous = None
+        node = self.head
+        deleted = None
+        while node is not None:
+            if node.data == item and node is self.head and node is self.tail:
+                self.head = None
+                self.tail = None
+                deleted = True
+            elif node.data == item and node is self.head:
+                self.head = node.next
+                if self.head == self.tail:
+                    self.tail = node.next
+                deleted = True
+            elif node.data == item and node is self.tail:
+                self.tail = previous
+                self.tail.next = None
+                if self.head == self.tail:
+                    self.head = previous
+                deleted = True
+            elif node.data == item:
+                previous.next = node.next
+                deleted = True
+            previous = node
+            node = node.next
 
-        if self.find(item):
-            node = self.head
-            while node is not None:
-                if node.data == item:
-                    if node.next is not None:
-                        if self.head == node:
-                            self.head = self.head.next
-                            break
-                    elif self.tail == node:
-                        temp = node.next
-                        node.data = temp.data
-                        node.next = temp.next
-                        # pdb.set_trace()
-                        node = node.next
-        else:
+        if not deleted:
             raise ValueError('Item not found: {}'.format(item))
 
 
 def test_linked_list():
     ll = LinkedList()
     print('list: {}'.format(ll))
-
-    # print('\nTesting append:')
-    # for item in ['A', 'B', 'C']:
-    #     print('append({!r})'.format(item))
-    #     ll.append(item)
-    #     print('list: {}'.format(ll))
-    #
-    # print('head: {}'.format(ll.head))
-    # print('tail: {}'.format(ll.tail))
-    # print('length: {}'.format(ll.length()))
 
     print('\nTesting prepend:')
     for item in ['A', 'B', 'C']:
@@ -149,15 +142,8 @@ def test_linked_list():
     print('tail: {}'.format(ll.tail))
     print('length: {}'.format(ll.length()))
 
-    print('\nTesting find:')
-    print(ll.find('C'))
-
-    print('head: {}'.format(ll.head))
-    print('tail: {}'.format(ll.tail))
-    print('length: {}'.format(ll.length()))
-
     # Enable this after implementing delete method
-    delete_implemented = False
+    delete_implemented = True
     if delete_implemented:
         print('\nTesting delete:')
         for item in ['B', 'C', 'A']:
