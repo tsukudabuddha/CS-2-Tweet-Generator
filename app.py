@@ -1,7 +1,8 @@
 from flask import Flask
-import word_frequency
-import stochastic_sampling
-from clean_text import clean
+import sys
+sys.path.append('/Users/andrew/Documents/GitHub/CS-2-Tweet-Generator/source')
+
+import markov_chain
 app = Flask(__name__)
 
 
@@ -12,15 +13,10 @@ def start_page():
 
 @app.route('/words')
 def home_page_text():
-    clean_text = clean("joey_words.txt")
-    histogram = word_frequency.histogram(clean_text)
-
-    sentence = []
-    for _ in range(0, 10):
-        word = stochastic_sampling.main(histogram)
-        sentence.append(word)
-    string_sentence = " ".join(sentence)
-    return string_sentence
+    with open("complete_corpus.txt", "r") as joey_file:
+        text = joey_file.read()
+    markov_dict = markov_chain.create_markov_dict(text)
+    return markov_chain.markov_chain(markov_dict)
 
 
 if __name__ == '__main__':
