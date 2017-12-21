@@ -47,6 +47,8 @@ def create_markov_dict(text):
         else:
             markov_dict[current_tuple] = Dictogram([next_word])
 
+    pprint(markov_dict)
+
     return(markov_dict)
 
 
@@ -70,7 +72,7 @@ def markov_chain(dictionary):
     dict_keys = [key for key, value in dictionary.items()]
     sentence_list = list(dict_keys[random.randint(0, len(dict_keys) - 1)])
 
-    for word_index in range(8):
+    for word_index in range(12):
         tuple_key = tuple((sentence_list[index]) for index in range(word_index, word_index + 2))
         if tuple_key in dictionary:
             word_dictogram = dictionary[tuple_key]
@@ -83,6 +85,8 @@ def markov_chain(dictionary):
 
 
 if __name__ == "__main__":
-    text = 'one fish two fish red fish blue fish'
+    # text = 'one fish two fish red fish blue fish'
+    with open("complete_corpus.txt", "r") as joey_file:
+        text = joey_file.read()
     markov_dict = create_markov_dict(text)
     print(markov_chain(markov_dict))
